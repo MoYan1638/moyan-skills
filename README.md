@@ -7,6 +7,7 @@
 | Skill | 类别 | 简介 | 安装命令 |
 |---|---|---|---|
 | popup-layer-ui | 质量规范 | 弹出层（Tooltip/Toast/Alert/Modal/Drawer）选型决策与硬性设计规则 | `npx skills add MoYan1638/moyan-skills/popup-layer-ui` |
+| liquid-glass-ui | 质量规范 | 液态玻璃界面生产工艺：五步玻璃工艺 + 背景三原则 + 实测避坑，附完整模板 | `npx skills add MoYan1638/moyan-skills/liquid-glass-ui` |
 | review-precheck | 质量规范 | 小程序/App 提审前五项合规预检，产出"可提/改完再提/提了也拒"判定 | `npx skills add MoYan1638/moyan-skills/review-precheck` |
 | strategic-advisor | 思维决策 | 战略参谋模式：身份对调、主动提问、挑战漏洞，产出可落地行动方案 | `npx skills add MoYan1638/moyan-skills/strategic-advisor` |
 | retrospective-advisor | 思维决策 | 复盘参谋：固定四问挖真实偏差，输出一页复盘卡（一个可执行改动） | `npx skills add MoYan1638/moyan-skills/retrospective-advisor` |
