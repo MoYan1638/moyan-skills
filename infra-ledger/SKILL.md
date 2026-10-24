@@ -9,7 +9,7 @@ description: 基建台账——数字资产登记与查询：域名、DNS 托管
 
 ## 台账文件
 
-`D:\WorkBuddyData\Claw\.workbuddy\memory\infra-ledger.md`
+`infra-ledger.md`（存放在本 Agent 的记忆目录下，具体路径由使用者环境自定）
 
 ## 台账格式
 
