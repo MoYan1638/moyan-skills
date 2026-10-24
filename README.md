@@ -9,14 +9,17 @@
 | Skill | 类别 | 一句话简介 | 安装 |
 | --- | --- | --- | --- |
 | [popup-layer-ui](./popup-layer-ui) | 质量规范 | 弹出层（Tooltip / Toast / Alert / Popconfirm / Modal / Drawer）选型决策与硬性设计规则 | `npx skills add MoYan1638/moyan-skills/popup-layer-ui` |
-| [strategic-advisor](./strategic-advisor) | 思维决策 | 战略参谋模式：身份对调、主动提问、挑战漏洞，把混乱理成可落地的行动方案 | `npx skills add MoYan1638/moyan-skills/strategic-advisor` |
+| [strategic-advisor](./strategic-advisor) | 思维决策 | 战略参谋：身份对调、主动提问、挑战漏洞，把混乱理成可落地的行动方案 | `npx skills add MoYan1638/moyan-skills/strategic-advisor` |
+| [retrospective-advisor](./retrospective-advisor) | 思维决策 | 复盘参谋：固定四问挖真实偏差，输出一页复盘卡 | `npx skills add MoYan1638/moyan-skills/retrospective-advisor` |
+| [github-publisher](./github-publisher) | 工具提效 | GitHub 发布生产线：gh api 建仓/上传/topics/验证，git push 被 TLS 拦也能零试错发布 | `npx skills add MoYan1638/moyan-skills/github-publisher` |
 
-## 为什么是这两类
+## 为什么是这三类
 
 - **质量规范类**：让 AI 的输出更好，而不是更快 —— 没有规范 AI 也能写界面，但会写出按钮乱套、层级混乱的界面
-- **思维决策类**：改变 AI 与你的协作方式 —— 不产出代码，产出判断
+- **思维决策类**：改变 AI 与你的协作方式 —— 事前理清思路（strategic-advisor），事后学到位（retrospective-advisor）
+- **工具提效类**：把重复劳动变成一条命令 —— github-publisher 来自真实踩坑，每次发仓库零试错
 
-工具提效类 skill 竞品一搜一大把，规范与思维是踩坑换来的，最难被抄。
+工具提效类谁都能写，规范与思维是踩坑换来的，最难被抄。
 
 ## 安装方式
 
