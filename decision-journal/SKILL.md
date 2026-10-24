@@ -35,7 +35,7 @@ description: 决策日志——在用户"拍板"做决定的瞬间自动留档�
 
 ## 存储约定
 
-- 文件：`D:\WorkBuddyData\Claw\.workbuddy\memory\decisions.md`
+- 文件：`decisions.md`（存放在本 Agent 的记忆目录下，具体路径由使用者环境自定）
 - 新条目追加到文件末尾，编号递增，不删不改旧条目
 - 决定本身变了不是改旧条目，而是记一条新条目并注明"推翻 #00X，理由……"
 
