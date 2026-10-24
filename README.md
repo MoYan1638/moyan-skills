@@ -29,4 +29,8 @@
 
 ## 持续更新
 
-系列会持续扩充，新 skill 以表格新增一行。License: MIT
+系列会持续扩充，新 skill 以表格新增一行。
+
+## 许可
+
+本系列采用 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh) 协议：个人学习与二次创作免费，需署名并附原仓库链接；**禁止商业用途（含倒卖、打包进付费产品）**，商用授权请联系作者。
