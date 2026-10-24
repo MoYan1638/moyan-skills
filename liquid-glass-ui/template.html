@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>液态玻璃参考模板 · 极光音乐卡</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:linear-gradient(180deg,#050814 0%,#0a1626 60%,#0d2033 100%); /* 大块柔和渐变背景 */
+    overflow:hidden;
+  }
+  /* 背景三原则：两道光带（青绿+紫）+ 星点，主色 1-2 种 */
+  .bg { position:fixed; inset:0; z-index:0; }
+  .band { position:absolute; width:130%; height:220px; border-radius:50%;
+    filter:blur(60px); opacity:.65; mix-blend-mode:screen; }
+  .b1 { background:linear-gradient(90deg,transparent,#2de2a8,#39c8f0,transparent);
+    top:6%; left:-20%; transform:rotate(-8deg); animation:wave 18s ease-in-out infinite alternate; }
+  .b2 { background:linear-gradient(90deg,transparent,#7b5cff,#c86bff,transparent);
+    top:30%; left:-12%; transform:rotate(5deg); animation:wave 24s ease-in-out infinite alternate-reverse; }
+  @keyframes wave { from{transform:translateY(0) rotate(-8deg)} to{transform:translateY(46px) rotate(-4deg)} }
+  .stars { position:absolute; inset:0;
+    background-image:radial-gradient(1.4px 1.4px at 12% 18%,#fff9,transparent),radial-gradient(1px 1px at 34% 9%,#fff7,transparent),radial-gradient(1.6px 1.6px at 62% 14%,#fff8,transparent),radial-gradient(1px 1px at 80% 26%,#fff6,transparent),radial-gradient(1.2px 1.2px at 48% 30%,#fff5,transparent); }
+  /* 明暗原则：玻璃正下方压暗，保文字可读 */
+  .shade { position:fixed; inset:0; z-index:1;
+    background:radial-gradient(ellipse 55% 45% at 50% 60%, rgb(0 0 0 / 38%), transparent 72%); }
+
+  /* ===== 玻璃主体卡 ===== */
+  .card { position:relative; z-index:2; width:330px; border-radius:28px; padding:24px; color:#fff;
+    backdrop-filter:blur(28px) saturate(170%);              /* 兜底：①模糊+②增色 */
+    background:rgb(255 255 255 / 8%);                        /* ③叠白（深色底用 8%） */
+    box-shadow:inset 1px 1px rgb(255 255 255 / .4),          /* ④亮边 */
+               inset -1px -1px rgb(255 255 255 / .08),
+               0 18px 44px rgb(0 0 0 / .4);
+    backdrop-filter:blur(28px) saturate(170%), url(#lens);   /* ⑤折射（覆盖上一行，仅 Chrome/Edge） */
+  }
+  .cover { width:100%; height:170px; border-radius:18px; margin-bottom:16px;
+    background:linear-gradient(135deg,#173a52,#1d6b58 55%,#4a2f7a);
+    box-shadow:inset 1px 1px rgb(255 255 255 / .25); position:relative; overflow:hidden; }
+  .cover::after { content:''; position:absolute; inset:0;
+    background:radial-gradient(circle at 72% 28%,rgb(45 226 168 / .5),transparent 55%),
+               radial-gradient(circle at 24% 76%,rgb(123 92 255 / .45),transparent 55%);
+    filter:blur(18px); }
+  h3 { font-size:17px; font-weight:500; } p { font-size:13px; opacity:.8; margin-top:3px; }
+  .bar { margin-top:16px; height:4px; border-radius:4px; background:rgb(255 255 255 / 15%); position:relative; }
+  .bar i { position:absolute; left:0; top:0; height:100%; width:42%; border-radius:4px; background:#fff; }
+  /* ===== 嵌套玻璃：底色更淡、亮边更细、模糊更低 ===== */
+  .ctl { display:flex; justify-content:center; gap:26px; margin-top:16px; align-items:center; }
+  .btn { width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:17px;
+    backdrop-filter:blur(20px) saturate(170%); background:rgb(255 255 255 / 8%);
+    box-shadow:inset 1px 1px rgb(255 255 255 / .4); }
+  .btn.main { width:58px; height:58px; font-size:20px; background:rgb(255 255 255 / 14%); }
+  .tag { display:block; margin-top:16px; text-align:center; font-size:12px; opacity:.85; }
+</style>
+</head>
+<body>
+<!-- ⑤折射滤镜：feTurbulence 生成噪声 → feDisplacementMap 让玻璃边缘轻微液态变形 -->
+<svg width="0" height="0" style="position:absolute">
+  <filter id="lens"><feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="11"/><feDisplacementMap in="SourceGraphic" scale="16"/></filter>
+</svg>
+<div class="bg"><div class="band b1"></div><div class="band b2"></div><div class="stars"></div></div>
+<div class="shade"></div>
+<div class="card">
+  <div class="cover"></div>
+  <h3>夜航西飞</h3>
+  <p>雪雪 · 深海电台</p>
+  <div class="bar"><i></i></div>
+  <div class="ctl"><div class="btn">⏮</div><div class="btn main">▶</div><div class="btn">⏭</div></div>
+</div>
+</body>
+</html>
