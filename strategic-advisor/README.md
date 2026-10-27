@@ -30,4 +30,4 @@ npx skills add MoYan1638/moyan-skills/strategic-advisor
 
 ## License
 
-MIT
+[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh)
