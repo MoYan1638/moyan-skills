@@ -105,3 +105,5 @@ description: 弹出层（Tooltip/Toast/Alert/Popconfirm/Modal/Drawer）选型与
 | 文件上传 | Progress 进度条 | Spinner 转圈 |
 | AI 回复生成中 | Typing 三点 | Progress 进度条 |
 | App 首页首次进入 | Skeleton 骨架屏 | 居中大 Spinner |
+
+> 配套可视化演示：[loading-demo.html](./loading-demo.html)——四种加载组件与弹出层组合的交互式单文件示例，可直接在浏览器打开对照效果。
