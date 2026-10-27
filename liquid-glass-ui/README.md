@@ -53,4 +53,4 @@ npx skills add MoYan1638/moyan-skills/liquid-glass-ui
 
 ## 许可
 
-MIT
+[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh)
