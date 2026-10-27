@@ -38,11 +38,32 @@
 
 ## 安装
 
+### 方式一：通用 Skills CLI（推荐）
+
 ```bash
 npx skills add MoYan1638/moyan-skills/infra-ledger
 ```
 
-或把 `SKILL.md` 内容按你所用 Agent 的规则文件方式配置。
+### 方式二：WorkBuddy
+
+将 `SKILL.md` 所在的 `infra-ledger` 文件夹放入技能目录：
+
+```
+~/.workbuddy/skills/infra-ledger/SKILL.md
+```
+
+### 方式三：Claude Code / Codex / Cursor 等
+
+没有独立技能目录的 Agent，把 `SKILL.md` 的内容追加到项目的 Agent 规则文件里即可：
+
+- Claude Code → `CLAUDE.md`
+- Codex / 通用 → `AGENTS.md`
+- Cursor → `.cursor/rules/infra-ledger.mdc`
+- GitHub Copilot → `.github/copilot-instructions.md`
+
+### 方式四：人类阅读
+
+直接打开 [`SKILL.md`](./SKILL.md)——它本身就是一份几分钟读完的规范，评审与使用时当 checklist 用。
 
 ## License
 
