@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>popup-layer-ui · 加载状态演示</title>
+<style>
+:root{
+  --bg:#f5f6f8; --card:#ffffff; --fg:#1f2329; --muted:#8a919f;
+  --border:#e5e7eb; --primary:#3370ff; --primary-weak:#e8f0ff;
+  --track:#eef0f3; --ok:#34b96f; --danger:#e5484d; --shadow:0 8px 28px rgba(31,41,55,.10);
+}
+[data-theme=dark]{
+  --bg:#14161a; --card:#1e2128; --fg:#e8eaed; --muted:#8a919f;
+  --border:#2c3038; --primary:#5c8dff; --primary-weak:#1c2740;
+  --track:#262a31; --ok:#3fbf78; --shadow:0 8px 28px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font:15px/1.7 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;transition:background .3s,color .3s}
+.wrap{max-width:860px;margin:0 auto;padding:32px 20px 80px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+h1{font-size:22px}
+h1 small{display:block;font-size:13px;color:var(--muted);font-weight:normal;margin-top:2px}
+.toggle{border:1px solid var(--border);background:var(--card);color:var(--fg);border-radius:8px;padding:6px 14px;cursor:pointer;font-size:13px}
+.rule{background:var(--primary-weak);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--fg);margin:14px 0 28px}
+section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 22px 24px;margin-bottom:20px;box-shadow:var(--shadow)}
+section h2{font-size:16px;margin-bottom:4px}
+section .desc{font-size:13px;color:var(--muted);margin-bottom:16px}
+.tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:99px;background:var(--primary-weak);color:var(--primary);vertical-align:2px;margin-left:8px}
+.tag.warn{background:transparent;color:var(--danger);border:1px solid var(--danger)}
+.btn{border:none;border-radius:8px;background:var(--primary);color:#fff;padding:9px 18px;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:opacity .2s,transform .1s}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--primary)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.demo-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:14px}
+
+/* ── 1. Spinner ── */
+.spin{width:24px;height:24px;border:2px solid var(--track);border-top-color:var(--primary);border-radius:50%;animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.spin.dots{width:auto;height:auto;border:none;animation:none;display:inline-flex;gap:4px}
+.spin.dots i{width:6px;height:6px;border-radius:50%;background:var(--primary);animation:blink 1s infinite}
+.spin.dots i:nth-child(2){animation-delay:.2s}
+.spin.dots i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.25;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+.spin-box{display:inline-flex;gap:16px;align-items:center;padding:12px 16px;border:1px dashed var(--border);border-radius:10px;margin-right:12px}
+
+/* ── 2. Progress ── */
+.pbar{height:4px;border-radius:4px;background:var(--track);overflow:hidden;flex:1;min-width:180px}
+.pbar>i{display:block;height:100%;width:0;background:var(--primary);border-radius:4px;transition:width .25s ease}
+.pwrap{display:flex;align-items:center;gap:10px;margin-top:14px}
+.pnum{font-size:13px;color:var(--muted);min-width:42px;text-align:right}
+.nprogress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--primary);z-index:999;transition:width .3s ease,opacity .4s;opacity:0}
+
+/* ── 3. Skeleton ── */
+.sk-card{border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;gap:12px;max-width:460px}
+.sk-ava{width:44px;height:44px;border-radius:50%;flex:none}
+.sk-lines{flex:1;display:flex;flex-direction:column;gap:8px}
+.sk-l{height:12px;border-radius:6px}
+.sk-l.t{width:40%;height:14px}
+.sk-l.s{width:65%}
+.sk{background:var(--track);position:relative;overflow:hidden}
+.sk::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:shim 1.4s infinite}
+[data-theme=dark] .sk::after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+@keyframes shim{to{transform:translateX(100%)}}
+.real{display:none;border:1px solid var(--border);border-radius:10px;padding:14px;display:none;gap:12px;max-width:460px;align-items:center}
+.real .avatar{width:44px;height:44px;border-radius:50%;background:var(--primary-weak);flex:none;display:grid;place-items:center;font-size:20px}
+
+/* ── 4. Typing ── */
+.chat{max-width:460px;display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.msg{max-width:78%;padding:10px 14px;border-radius:14px;font-size:14px}
+.msg.me{align-self:flex-end;background:var(--primary);color:#fff;border-bottom-right-radius:4px}
+.msg.ai{align-self:flex-start;background:var(--track);border-bottom-left-radius:4px;display:flex;align-items:center;gap:8px}
+
+/* ── 5. 弹出层 ── */
+.mask{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:center;justify-content:center}
+.mask.show{display:flex}
+.modal{background:var(--card);border-radius:14px;width:min(440px,92vw);padding:22px;box-shadow:var(--shadow)}
+.modal h3{font-size:16px;margin-bottom:6px}
+.modal p{font-size:13px;color:var(--muted);margin-bottom:16px}
+.mfoot{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.drawer-mask{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none}
+.drawer-mask.show{display:block}
+.drawer{position:fixed;top:0;right:-420px;width:min(400px,92vw);height:100%;background:var(--card);z-index:101;box-shadow:var(--shadow);transition:right .3s ease;padding:22px;overflow-y:auto}
+.drawer.show{right:0}
+.drawer h3{font-size:16px;margin-bottom:14px}
+.toast{position:fixed;bottom:36px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--fg);color:var(--bg);padding:9px 18px;border-radius:99px;font-size:13px;opacity:0;pointer-events:none;transition:all .25s;z-index:200}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+code{background:var(--track);border-radius:5px;padding:1px 6px;font-size:12px;color:var(--fg)}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:36px}
+</style>
+</head>
+<body>
+<div class="nprogress" id="nprogress"></div>
+<div class="wrap">
+  <header>
+    <h1>加载状态演示<small>popup-layer-ui 配套 · Spinner / Progress / Skeleton / Typing</small></h1>
+    <button class="toggle" onclick="toggleTheme()">🌙 深色</button>
+  </header>
+  <div class="rule">选型口诀：<b>能拿真实进度 → Progress</b> · <b>不知耗时局部等待 → Spinner</b> · <b>整页首屏 → Skeleton</b> · <b>对话生成中 → Typing</b>。禁止假进度、禁止叠加 loading、加载中必须锁交互。</div>
+
+  <!-- 1 Spinner -->
+  <section>
+    <h2>① Spinner 转圈 <span class="tag">按钮内嵌 · 锁交互</span></h2>
+    <div class="desc">不知道耗时、局部小区域等待。提交期间按钮禁用，阻止重复点击；旁边是点状变体。</div>
+    <div class="demo-row">
+      <button class="btn" id="btn-spin" onclick="demoSpinner(this)">保存设置</button>
+      <span class="spin-box"><span class="spin"></span><span style="font-size:13px;color:var(--muted)">24px / 2px 环形</span></span>
+      <span class="spin-box"><span class="spin dots"><i></i><i></i><i></i></span><span style="font-size:13px;color:var(--muted)">点状变体</span></span>
+    </div>
+  </section>
+
+  <!-- 2 Progress -->
+  <section>
+    <h2>② Progress 进度条 <span class="tag warn">仅限真实进度</span></h2>
+    <div class="desc">高 4px 圆角条 + 右侧百分比，完成后过渡到满条再消失。演示里的进度是模拟的——<b>真实场景必须绑定上传/导出的真实回调，禁止定时器匀速造假</b>。顶部还有 NProgress 风格的全局细条（模拟路由切换）。</div>
+    <div class="pwrap"><div class="pbar"><i id="pf"></i></div><span class="pnum" id="pn">0%</span></div>
+    <div class="demo-row">
+      <button class="btn" onclick="demoProgress()">模拟上传</button>
+      <button class="btn ghost" onclick="demoNProgress()">模拟路由切换</button>
+    </div>
+  </section>
+
+  <!-- 3 Skeleton -->
+  <section>
+    <h2>③ Skeleton 骨架屏 <span class="tag">shimmer 扫光</span></h2>
+    <div class="desc">占位结构与真实卡片逐块对齐（头像 / 标题 / 两行文本 / 标签），数据到位后平滑替换，避免布局跳闪。</div>
+    <div class="demo-row">
+      <div class="sk-card" id="sk">
+        <div class="sk sk-ava"></div>
+        <div class="sk-lines"><div class="sk sk-l t"></div><div class="sk sk-l"></div><div class="sk sk-l s"></div></div>
+      </div>
+      <div class="real" id="real"><span class="avatar">🧑‍💻</span><div><b>墨言</b><br><span style="font-size:13px;color:var(--muted)">前端开发 · 正在做加载动画规范</span></div></div>
+    </div>
+    <div class="demo-row"><button class="btn ghost" onclick="demoSkeleton(this)">重新加载</button></div>
+  </section>
+
+  <!-- 4 Typing -->
+  <section>
+    <h2>④ Typing 三点指示器 <span class="tag">仅对话场景</span></h2>
+    <div class="desc">AI 开始输出文字后立刻移除，不做通用接口加载。</div>
+    <div class="chat" id="chat">
+      <div class="msg ai"><span class="spin dots" id="typing"><i></i><i></i><i></i></span></div>
+    </div>
+    <div class="demo-row"><button class="btn ghost" onclick="demoTyping()">再问一句</button></div>
+  </section>
+
+  <!-- 5 弹出层搭配 -->
+  <section>
+    <h2>⑤ 与弹出层搭配 <span class="tag">popup-layer 组合拳</span></h2>
+    <div class="desc">Modal 提交按钮嵌 Spinner 并禁用；Drawer 远程数据先上骨架；批量操作弹窗内放 Progress；Toast 只做结果反馈。</div>
+    <div class="demo-row">
+      <button class="btn" onclick="openModal()">Modal · 提交锁交互</button>
+      <button class="btn" onclick="openDrawer()">Drawer · 骨架先行</button>
+      <button class="btn" onclick="openBatch()">批量任务 · 进度反馈</button>
+    </div>
+  </section>
+
+  <footer>popup-layer-ui · CC BY-NC 4.0 · 加载动画克制、柔和、不花哨</footer>
+</div>
+
+<!-- Modal -->
+<div class="mask" id="modal-mask">
+  <div class="modal">
+    <h3>确认提交表单？</h3>
+    <p>提交后按钮将进入加载状态并禁用，防止重复提交。</p>
+    <div class="mfoot">
+      <button class="btn ghost" onclick="closeModal()">取消</button>
+      <button class="btn" id="modal-ok" onclick="modalSubmit(this)">确认提交</button>
+    </div>
+  </div>
+</div>
+
+<!-- Drawer -->
+<div class="drawer-mask" id="drawer-mask" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <h3>详情面板</h3>
+  <div id="drawer-body">
+    <div class="sk-card"><div class="sk sk-ava"></div><div class="sk-lines"><div class="sk sk-l t"></div><div class="sk sk-l"></div><div class="sk sk-l s"></div></div></div>
+  </div>
+</div>
+
+<!-- Batch -->
+<div class="mask" id="batch-mask">
+  <div class="modal">
+    <h3>批量导入 128 条记录</h3>
+    <p>后端返回真实进度时才用进度条。</p>
+    <div class="pwrap"><div class="pbar"><i id="bf"></i></div><span class="pnum" id="bn">0%</span></div>
+    <div class="mfoot"><button class="btn ghost" onclick="closeBatch()">后台运行</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function toggleTheme(){
+  const d=document.documentElement, dark=d.dataset.theme==='dark';
+  d.dataset.theme=dark?'light':'dark';
+  event.target.textContent=dark?'🌙 深色':'☀️ 浅色';
+}
+function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),2200)}
+
+/* Spinner：按钮加载 1.4s 后成功反馈 */
+function demoSpinner(btn){
+  if(btn.disabled)return;
+  const old=btn.textContent; btn.disabled=true;
+  btn.innerHTML='<span class="spin" style="width:16px;height:16px;border-width:2px;border-top-color:#fff"></span> 保存中…';
+  setTimeout(()=>{btn.disabled=false;btn.textContent='✓ 已保存';toast('保存成功');
+    setTimeout(()=>btn.textContent=old,1400)},1400);
+}
+
+/* Progress：演示用分步模拟，真实场景绑定回调 */
+let pTimer=null;
+function demoProgress(){
+  clearInterval(pTimer); let p=0;
+  const f=document.getElementById('pf'), n=document.getElementById('pn');
+  pTimer=setInterval(()=>{
+    p=Math.min(100,p+Math.random()*18+6);
+    f.style.width=p+'%'; n.textContent=Math.floor(p)+'%';
+    if(p>=100){clearInterval(pTimer);toast('上传完成');setTimeout(()=>{f.style.opacity=0;n.textContent='0%';
+      setTimeout(()=>{f.style.width=0;f.style.opacity=1},400)},900)}
+  },300);
+}
+function demoNProgress(){
+  const bar=document.getElementById('nprogress');
+  bar.style.opacity=1; bar.style.width='0';
+  requestAnimationFrame(()=>bar.style.width='72%');
+  setTimeout(()=>{bar.style.width='100%';
+    setTimeout(()=>{bar.style.opacity=0;setTimeout(()=>bar.style.width='0',400)},300)},900);
+}
+
+/* Skeleton：骨架 → 真实内容平滑替换 */
+function demoSkeleton(btn){
+  const sk=document.getElementById('sk'), real=document.getElementById('real');
+  sk.style.display='flex'; real.style.display='none';
+  setTimeout(()=>{sk.style.display='none';real.style.display='flex'},1500);
+}
+
+/* Typing：三点 → 文字 */
+const answers=['加载状态选好了，但别叠加使用哦 ✨','记住：假进度比没有进度更糟糕。','Skeleton 的占位一定要和真实布局对齐。'];
+let qi=0;
+function demoTyping(){
+  const chat=document.getElementById('chat');
+  const typing=document.getElementById('typing').parentElement;
+  chat.appendChild(typing);
+  setTimeout(()=>{
+    typing.remove();
+    const m=document.createElement('div');m.className='msg ai';
+    m.textContent=answers[qi++%answers.length];chat.appendChild(m);
+    const me=document.createElement('div');me.className='msg me';me.textContent='明白了！';chat.appendChild(me);
+  },1500);
+}
+
+/* Modal + Spinner */
+function openModal(){document.getElementById('modal-mask').classList.add('show')}
+function closeModal(){document.getElementById('modal-mask').classList.remove('show')}
+function modalSubmit(btn){
+  btn.disabled=true;
+  btn.innerHTML='<span class="spin" style="width:16px;height:16px;border-width:2px;border-top-color:#fff"></span> 提交中…';
+  setTimeout(()=>{btn.disabled=false;btn.textContent='确认提交';closeModal();toast('提交成功')},1600);
+}
+
+/* Drawer + Skeleton */
+function openDrawer(){
+  document.getElementById('drawer-mask').classList.add('show');
+  document.getElementById('drawer').classList.add('show');
+  document.getElementById('drawer-body').innerHTML=
+   '<div class="sk-card"><div class="sk sk-ava"></div><div class="sk-lines"><div class="sk sk-l t"></div><div class="sk sk-l"></div><div class="sk sk-l s"></div></div></div>';
+  setTimeout(()=>{
+    document.getElementById('drawer-body').innerHTML=
+     '<div class="real" style="display:flex;max-width:none;border:none;padding:0"><span class="avatar">📄</span><div><b>项目周报 · 第 16 周</b><br><span style="font-size:13px;color:var(--muted)">Drawer 远程数据加载完成后替换骨架</span></div></div>';
+  },1500);
+}
+function closeDrawer(){
+  document.getElementById('drawer-mask').classList.remove('show');
+  document.getElementById('drawer').classList.remove('show');
+}
+
+/* 批量任务 Progress */
+function openBatch(){
+  document.getElementById('batch-mask').classList.add('show');
+  const f=document.getElementById('bf'), n=document.getElementById('bn');
+  f.style.width='0'; n.textContent='0%'; let p=0;
+  clearInterval(window._bt);
+  window._bt=setInterval(()=>{
+    p=Math.min(100,p+Math.random()*15+5);
+    f.style.width=p+'%'; n.textContent=Math.floor(p)+'%';
+    if(p>=100){clearInterval(window._bt);toast('批量导入完成');
+      setTimeout(closeBatch,800)}
+  },260);
+}
+function closeBatch(){
+  clearInterval(window._bt);
+  document.getElementById('batch-mask').classList.remove('show');
+}
+</script>
+</body>
+</html>
