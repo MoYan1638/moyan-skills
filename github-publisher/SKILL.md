@@ -53,7 +53,7 @@ gh repo create {owner}/{name} --public --description "{简介}"
 
 ## 交付规范
 
-- 新仓库默认三件套：README.md（写清定位和用法）+ MIT LICENSE（Copyright (c) 当年 + owner）+ 核心内容文件
+- 新仓库默认三件套：README.md（写清定位和用法）+ LICENSE（协议先与用户确认，系列仓库统一 CC BY-NC 4.0，链接 https://creativecommons.org/licenses/by-nc/4.0/legalcode）+ 核心内容文件
 - 系列仓库的成员 README 顶部加一行导流："本 xx 是 [系列仓库] 的一员，更多看那边"
 - 简介 = 一句话是什么 + 关键能力 + 兼容平台，别只写"我的仓库"
 - 本地文件 UTF-8 无 BOM：`New-Object System.Text.UTF8Encoding($false)`
