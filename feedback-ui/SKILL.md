@@ -1,11 +1,11 @@
 ---
-name: popup-layer-ui
-description: 弹出层（Tooltip/Toast/Alert/Popconfirm/Modal/Drawer）选型与设计规范，含配套加载状态（Spinner/Progress/Skeleton/Typing）选型。当设计或实现 UI 中的提示、反馈、确认框、弹窗、抽屉、加载动画时使用，确保弹出层类型选择一致、打扰度最小、文案符合规范。
+name: feedback-ui
+description: UI 反馈设计规范：弹出层（Tooltip/Toast/Alert/Popconfirm/Modal/Drawer）与加载状态（Spinner/Progress/Skeleton/Typing）选型与设计规则。当设计或实现 UI 中的提示、反馈、确认框、弹窗、抽屉、加载动画时使用，确保选型一致、打扰度最小、文案符合规范。
 ---
 
-# 弹出层设计规范
+# UI 反馈设计规范（弹出层 + 加载状态）
 
-为界面选择和设计弹出层时，遵循本规范。核心原则：**用最小的打扰完成必要的信息传达**。
+为界面选择和设计反馈类 UI 时，遵循本规范。核心原则：**用最小的打扰完成必要的信息传达**。分两部分：弹出层管"怎么提示"，加载状态管"等待时给用户看什么"。
 
 ## 一、六种类型速查
 
