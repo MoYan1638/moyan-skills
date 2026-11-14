@@ -6,19 +6,24 @@
 
 | Skill | 类别 | 简介 | 安装命令 |
 |---|---|---|---|
-| feedback-ui | 质量规范 | UI 反馈双规范：弹出层（Tooltip/Toast/Alert/Popconfirm/Modal/Drawer）+ 加载状态（Spinner/Progress/Skeleton/Typing）选型与硬性设计规则 | `npx skills add MoYan1638/moyan-skills/feedback-ui` |
+| ui-patterns | 质量规范 | 界面设计规范三合一：导航（侧边栏分组/选中态/折叠）+ 表单（13 种组件选型/校验时机/报错文案）+ 反馈（弹出层/加载状态），开头有选型总图一次定位 | `npx skills add MoYan1638/moyan-skills/ui-patterns` |
 | liquid-glass-ui | 质量规范 | 液态玻璃界面生产工艺：五步玻璃工艺 + 背景三原则 + 实测避坑，附完整模板 | `npx skills add MoYan1638/moyan-skills/liquid-glass-ui` |
 | review-precheck | 质量规范 | 小程序/App 提审前五项合规预检，产出"可提/改完再提/提了也拒"判定 | `npx skills add MoYan1638/moyan-skills/review-precheck` |
-| strategic-advisor | 思维决策 | 战略参谋模式：身份对调、主动提问、挑战漏洞，产出可落地行动方案 | `npx skills add MoYan1638/moyan-skills/strategic-advisor` |
-| retrospective-advisor | 思维决策 | 复盘参谋：固定四问挖真实偏差，输出一页复盘卡（一个可执行改动） | `npx skills add MoYan1638/moyan-skills/retrospective-advisor` |
-| decision-journal | 思维决策 | 决策日志：拍板瞬间留档（背景/备选/理由/预期），日后原样回查防事后脑补 | `npx skills add MoYan1638/moyan-skills/decision-journal` |
+| decision-loop | 思维决策 | 决策闭环三阶段：事前参谋（摸底牌/收敛分歧/行动方案）→ 拍板留档（决策日志）→ 事后复盘（四问一卡），自动联动 | `npx skills add MoYan1638/moyan-skills/decision-loop` |
 | github-publisher | 工具提效 | GitHub 发布生产线：建仓→上传→配 topics→验证，内置踩坑硬规则 | `npx skills add MoYan1638/moyan-skills/github-publisher` |
 | infra-ledger | 工具提效 | 基建台账：域名/服务器/证书/映射关系登记与查询，到期自动预警 | `npx skills add MoYan1638/moyan-skills/infra-ledger` |
+
+## 版本说明
+
+v2 起合并同类技能，减少单次任务需加载的数量：
+
+- `feedback-ui` + `form-patterns` + `sidebar-navigation` → **ui-patterns**（设计一个界面往往三者同时要查，合并后一次触发全覆盖）
+- `strategic-advisor` + `decision-journal` + `retrospective-advisor` → **decision-loop**（事前/事中/事后本是一条流程，合并后自动衔接并联动）
 
 ## 为什么是这三类
 
 - **质量规范类**：让 AI 的输出更好，而不是更快——没它 AI 也能写，但会写出不合格的界面/踩审核红线
-- **思维决策类**：改变 AI 和你的协作方式——strategic-advisor 管事前想清楚，decision-journal 管拍板留档，retrospective-advisor 管事后学到位，构成完整决策闭环
+- **思维决策类**：改变 AI 和你的协作方式——事前想清楚、拍板留档、事后学到位，构成完整决策闭环
 - **工具提效类**：把重复劳动自动化——发布流程和资产台账，做一次流程化，之后一句话完成
 
 三类共同点：都从真实踩坑经验里长出来，不是空想模板。
