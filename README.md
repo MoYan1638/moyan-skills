@@ -6,7 +6,7 @@
 
 | Skill | 类别 | 简介 | 安装命令 |
 |---|---|---|---|
-| ui-patterns | 质量规范 | 界面设计规范三合一：导航（侧边栏分组/选中态/折叠）+ 表单（13 种组件选型/校验时机/报错文案）+ 反馈（弹出层/加载状态），开头有选型总图一次定位 | `npx skills add MoYan1638/moyan-skills/ui-patterns` |
+| ui-patterns | 质量规范 | 界面设计规范四合一：导航（侧边栏分组/选中态/折叠）+ 表单（13 种组件选型/校验时机/报错文案）+ 反馈（七种弹出层/七种加载组件/动效配方）+ 质感细节（色阶层次/暗色字重/排版防抖/输入法与滚动细节），附硬性数字基线与自查清单 | `npx skills add MoYan1638/moyan-skills/ui-patterns` |
 | liquid-glass-ui | 质量规范 | 液态玻璃界面生产工艺：五步玻璃工艺 + 背景三原则 + 实测避坑，附完整模板 | `npx skills add MoYan1638/moyan-skills/liquid-glass-ui` |
 | review-precheck | 质量规范 | 小程序/App 提审前五项合规预检，产出"可提/改完再提/提了也拒"判定 | `npx skills add MoYan1638/moyan-skills/review-precheck` |
 | decision-loop | 思维决策 | 决策闭环三阶段：事前参谋（摸底牌/收敛分歧/行动方案）→ 拍板留档（决策日志）→ 事后复盘（四问一卡），自动联动 | `npx skills add MoYan1638/moyan-skills/decision-loop` |
