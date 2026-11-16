@@ -7,6 +7,7 @@
 | Skill | 类别 | 简介 | 安装命令 |
 |---|---|---|---|
 | ui-patterns | 质量规范 | 界面设计规范六合一：导航（侧边栏分组/选中态/折叠）+ 表单（13 种组件选型/校验时机/报错文案）+ 反馈（七种弹出层/七种加载组件/动效配方）+ 质感细节（色阶层次/暗色字重/排版防抖/输入法与滚动细节）+ 微交互动效（点赞爆粒子/提交三连变/果冻开关/长按确认配方与可运行示例）+ 效果决策与提示词库（18 个 UI 效果的场景决策表/AI 提示词/实现要点），附硬性数字基线与自查清单 | `npx skills add MoYan1638/moyan-skills/ui-patterns` |
+| video-pipeline | 生产流程 | AI 视频生产流水线七步法：拆解爆款→Vibe Coding 画面骨架→AI 画师素材→动效优化→配音音效，附每步验收标准、翻车避坑清单（工程路径隔离/时间轴配置化）与批量生产标准化自查 | `npx skills add MoYan1638/moyan-skills/video-pipeline` |
 | liquid-glass-ui | 质量规范 | 液态玻璃界面生产工艺：五步玻璃工艺 + 背景三原则 + 实测避坑，附完整模板 | `npx skills add MoYan1638/moyan-skills/liquid-glass-ui` |
 | review-precheck | 质量规范 | 小程序/App 提审前五项合规预检，产出"可提/改完再提/提了也拒"判定 | `npx skills add MoYan1638/moyan-skills/review-precheck` |
 | decision-loop | 思维决策 | 决策闭环三阶段：事前参谋（摸底牌/收敛分歧/行动方案）→ 拍板留档（决策日志）→ 事后复盘（四问一卡），自动联动 | `npx skills add MoYan1638/moyan-skills/decision-loop` |
@@ -20,11 +21,12 @@ v2 起合并同类技能，减少单次任务需加载的数量：
 - `feedback-ui` + `form-patterns` + `sidebar-navigation` → **ui-patterns**（设计一个界面往往三者同时要查，合并后一次触发全覆盖）
 - `strategic-advisor` + `decision-journal` + `retrospective-advisor` → **decision-loop**（事前/事中/事后本是一条流程，合并后自动衔接并联动）
 
-## 为什么是这三类
+## 为什么是这几类
 
 - **质量规范类**：让 AI 的输出更好，而不是更快——没它 AI 也能写，但会写出不合格的界面/踩审核红线
 - **思维决策类**：改变 AI 和你的协作方式——事前想清楚、拍板留档、事后学到位，构成完整决策闭环
 - **工具提效类**：把重复劳动自动化——发布流程和资产台账，做一次流程化，之后一句话完成
+- **生产流程类**：把「AI 一句话生成」拆成可标准化的多道工序——没它 AI 也能做，但产出均质、无风格、不可复用
 
 三类共同点：都从真实踩坑经验里长出来，不是空想模板。
 
