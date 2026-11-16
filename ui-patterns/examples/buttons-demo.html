@@ -248,7 +248,7 @@
 /* ===== 04 长按确认 ===== */
 (function(){
   const btn = document.getElementById('holdBtn');
-  const ring = document.getElementById('progRing');
+  let ring = document.getElementById('progRing');
   const label = document.getElementById('holdLabel');
   const C = 213.6, DUR = 1500;
   let raf = null, start = 0, done = false;
@@ -261,7 +261,6 @@
   function down(e){
     if (done) return;
     e.preventDefault();
-    start = performance.now() - (C - (C - parseFloat(ring.style.strokeDashoffset||C)))*0; // fresh start
     cancelAnimationFrame(raf);
     start = performance.now();
     raf = requestAnimationFrame(frame);
@@ -269,7 +268,7 @@
   function up(){
     if (done || !start) return;
     cancelAnimationFrame(raf);
-    const cur = parseFloat(ring.style.strokeDashoffset);
+    const cur = parseFloat(ring.style.strokeDashoffset) || C;
     const from = C - cur, t0 = performance.now();
     (function back(now){
       const p = Math.min((now - t0)/350, 1);
