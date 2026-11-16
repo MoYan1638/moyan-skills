@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高质感 UI 按钮 ×4</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body {
+    min-height:100vh;
+    font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    background:radial-gradient(1200px 800px at 20% 0%, #1c2233 0%, #0d1017 60%);
+    color:#e8ebf2;
+    display:flex; flex-direction:column; align-items:center;
+    padding:48px 20px 80px;
+  }
+  h1 { font-size:22px; font-weight:600; letter-spacing:1px; margin-bottom:6px; }
+  .sub { font-size:13px; color:#7d8699; margin-bottom:44px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:24px; width:100%; max-width:920px; }
+  .card {
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:18px;
+    padding:34px 24px 26px;
+    display:flex; flex-direction:column; align-items:center; gap:22px;
+    transition:border-color .3s;
+  }
+  .card:hover { border-color:rgba(255,255,255,.14); }
+  .num { font-size:11px; color:#5b6478; letter-spacing:3px; }
+  .name { font-size:15px; font-weight:600; }
+  .desc { font-size:12px; color:#7d8699; text-align:center; line-height:1.7; }
+  .stage { height:64px; display:flex; align-items:center; justify-content:center; position:relative; }
+
+  /* ========== 01 点赞爆粒子 ========== */
+  .like-wrap { display:flex; align-items:center; gap:12px; padding:12px 26px 12px 20px;
+    background:rgba(255,255,255,.05); border-radius:999px; cursor:pointer;
+    border:1px solid rgba(255,255,255,.08); user-select:none; }
+  .heart { width:34px; height:34px; position:relative; transform-origin:center; }
+  .heart svg { width:100%; height:100%; overflow:visible; }
+  .heart path { fill:#8a93a8; transition:fill .15s; }
+  .like-wrap.liked .heart path { fill:#ff4d6a; filter:drop-shadow(0 0 8px rgba(255,77,106,.55)); }
+  .like-count { font-size:18px; font-weight:600; min-width:34px; text-align:center; font-variant-numeric:tabular-nums; }
+  .like-count span { display:inline-block; }
+  .count-roll { animation:rollUp .45s cubic-bezier(.22,1.4,.36,1); }
+  @keyframes rollUp { 0%{transform:translateY(12px);opacity:0} 100%{transform:translateY(0);opacity:1} }
+  .particle { position:absolute; border-radius:50%; pointer-events:none; }
+
+  /* ========== 02 提交按钮三连变 ========== */
+  .submit-btn {
+    position:relative; height:48px; min-width:150px; padding:0 34px;
+    border:none; border-radius:24px; cursor:pointer; overflow:hidden;
+    background:linear-gradient(135deg,#4f7cff,#3b5fe0); color:#fff;
+    font-size:15px; font-weight:600; letter-spacing:2px;
+    transition:width .3s ease-in-out, min-width .3s ease-in-out, border-radius .3s ease-in-out, background .4s;
+  }
+  .submit-btn .label { transition:opacity .2s; white-space:nowrap; }
+  .submit-btn .spinner {
+    position:absolute; left:50%; top:50%; width:22px; height:22px; margin:-11px 0 0 -11px;
+    border:3px solid rgba(255,255,255,.25); border-top-color:#fff; border-radius:50%;
+    opacity:0; animation:spin .8s linear infinite; transition:opacity .2s;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .submit-btn .check { position:absolute; left:50%; top:50%; width:26px; height:26px; margin:-13px 0 0 -13px; opacity:0; }
+  .submit-btn .check polyline { fill:none; stroke:#fff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:24; stroke-dashoffset:24; }
+  .submit-btn.circle { width:48px; min-width:48px; padding:0; border-radius:50%; }
+  .submit-btn.circle .label { opacity:0; }
+  .submit-btn.circle .spinner { opacity:1; }
+  .submit-btn.success { background:linear-gradient(135deg,#2ecc71,#27ae60); }
+  .submit-btn.success .spinner { opacity:0; animation-play-state:paused; }
+  .submit-btn.success .check { opacity:1; }
+  .submit-btn.success .check polyline { animation:draw .4s .1s ease-out forwards; }
+  @keyframes draw { to { stroke-dashoffset:0; } }
+
+  /* ========== 03 果冻开关 ========== */
+  .jelly {
+    width:76px; height:40px; border-radius:999px; background:#3a4152;
+    border:none; cursor:pointer; position:relative; transition:background .35s;
+  }
+  .jelly.on { background:#2ecc71; box-shadow:0 0 16px rgba(46,204,113,.4); }
+  .jelly .knob {
+    position:absolute; top:4px; left:4px; width:32px; height:32px; border-radius:50%;
+    background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.35);
+    transition:left .35s cubic-bezier(.34,1.6,.4,1), width .18s, border-radius .18s;
+  }
+  .jelly.stretch .knob { width:44px; border-radius:22px; }
+  .jelly.on .knob { left:40px; }
+
+  /* ========== 04 长按确认 ========== */
+  .hold-btn {
+    position:relative; width:64px; height:64px; border:none; border-radius:50%;
+    background:#3a4152; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:background .3s, transform .1s;
+  }
+  .hold-btn svg.ring { position:absolute; inset:-5px; width:74px; height:74px; transform:rotate(-90deg); }
+  .hold-btn svg.ring circle { fill:none; stroke-width:4; }
+  .hold-btn .track { stroke:rgba(255,255,255,.08); }
+  .hold-btn .prog { stroke:#ff5e6c; stroke-linecap:round; stroke-dasharray:213.6; stroke-dashoffset:213.6; }
+  .hold-btn .trash { width:24px; height:24px; stroke:#c7cddb; stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .hold-btn.done { background:#2ecc71; box-shadow:0 0 18px rgba(46,204,113,.45); }
+  .hold-btn.done .trash { display:none; }
+  .hold-btn.shake { animation:shake .35s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 50%{transform:translateX(5px)} 75%{transform:translateX(-3px)} }
+  .hold-label { font-size:12px; color:#7d8699; margin-left:12px; min-width:56px; }
+</style>
+</head>
+<body>
+<h1>高质感 UI 按钮 ×4</h1>
+<div class="sub">点一点试试 · 纯 HTML/CSS/JS · 无依赖</div>
+<div class="grid">
+
+  <!-- 01 点赞爆粒子 -->
+  <div class="card">
+    <div class="num">01</div>
+    <div class="name">点赞爆粒子</div>
+    <div class="stage">
+      <div class="like-wrap" id="likeWrap">
+        <div class="heart" id="heart">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.7-10-9.3C.3 8.6 2 5 5.5 5c2 0 3.4 1.1 4.2 2.4L12 9l2.3-1.6C15.1 6.1 16.5 5 18.5 5 22 5 23.7 8.6 22 11.7 19.5 16.3 12 21 12 21z"/></svg>
+        </div>
+        <div class="like-count"><span id="likeNum">128</span></div>
+      </div>
+    </div>
+    <div class="desc">爱心弹缩 0.8→1.2→1 · 变红 · 8 粒彩点炸开淡出 · 数字上滚 +1 · 约 600ms 回弹曲线</div>
+  </div>
+
+  <!-- 02 提交按钮三连变 -->
+  <div class="card">
+    <div class="num">02</div>
+    <div class="name">提交按钮三连变</div>
+    <div class="stage">
+      <button class="submit-btn" id="submitBtn">
+        <span class="label">提 交</span>
+        <span class="spinner"></span>
+        <svg class="check" viewBox="0 0 24 24"><polyline points="4,12.5 10,18.5 20,6.5"/></svg>
+      </button>
+    </div>
+    <div class="desc">文字淡出 → 收缩成圆 + 旋转加载环（300ms ease-in-out）→ 1.2s 后变绿画对勾 → 再 1s 复原</div>
+  </div>
+
+  <!-- 03 果冻开关 -->
+  <div class="card">
+    <div class="num">03</div>
+    <div class="name">果冻开关</div>
+    <div class="stage">
+      <button class="jelly" id="jelly"><span class="knob"></span></button>
+    </div>
+    <div class="desc">圆点滑动途中横向拉长成胶囊 → 到达终点回弹复原 · 底色灰→绿 · 约 350ms 弹簧曲线</div>
+  </div>
+
+  <!-- 04 长按确认 -->
+  <div class="card">
+    <div class="num">04</div>
+    <div class="name">长按确认</div>
+    <div class="stage">
+      <div style="display:flex;align-items:center">
+        <button class="hold-btn" id="holdBtn">
+          <svg class="ring" viewBox="0 0 74 74"><circle class="track" cx="37" cy="37" r="34"/><circle class="prog" id="progRing" cx="37" cy="37" r="34"/></svg>
+          <svg class="trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg>
+        </button>
+        <div class="hold-label" id="holdLabel">按住删除</div>
+      </div>
+    </div>
+    <div class="desc">按住 1.5s 进度环顺时针走满 · 松手倒退归零 · 走满后轻震 → 变对勾「已删除」</div>
+  </div>
+
+</div>
+
+<script>
+/* ===== 01 点赞爆粒子 ===== */
+(function(){
+  const wrap = document.getElementById('likeWrap');
+  const heart = document.getElementById('heart');
+  const numEl = document.getElementById('likeNum');
+  const colors = ['#ff4d6a','#ffd166','#4ecdc4','#4f7cff','#c77dff','#ff9f1c','#7bed9f','#ff6b9d'];
+  let count = 128, liked = false, busy = false;
+
+  wrap.addEventListener('click', () => {
+    if (busy) return; busy = true;
+    liked = !liked;
+    wrap.classList.toggle('liked', liked);
+    count += liked ? 1 : -1;
+    const s = numEl.cloneNode(true);
+    numEl.parentNode.replaceChild(s, numEl);
+    s.id = 'likeNum'; s.classList.add('count-roll');
+    s.textContent = count;
+
+    heart.animate([
+      { transform:'scale(1)' },
+      { transform:'scale(0.8)', offset:.25 },
+      { transform:'scale(1.25)', offset:.6 },
+      { transform:'scale(1)' }
+    ], { duration:600, easing:'cubic-bezier(.34,1.56,.64,1)' });
+
+    if (liked) {
+      const r = heart.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+      const cx = r.left - wr.left + r.width/2, cy = r.top - wr.top + r.height/2;
+      for (let i = 0; i < 8; i++) {
+        const p = document.createElement('div');
+        const size = 5 + Math.random()*4;
+        const ang = (i/8)*Math.PI*2 + Math.random()*.4;
+        const dist = 34 + Math.random()*26;
+        p.className = 'particle';
+        p.style.cssText = `width:${size}px;height:${size}px;background:${colors[i]};left:${cx-size/2}px;top:${cy-size/2}px;`;
+        wrap.appendChild(p);
+        p.animate([
+          { transform:'translate(0,0) scale(1)', opacity:1 },
+          { transform:`translate(${Math.cos(ang)*dist}px,${Math.sin(ang)*dist}px) scale(.3)`, opacity:0 }
+        ], { duration:550, easing:'cubic-bezier(.17,.67,.4,1)' }).onfinish = () => p.remove();
+      }
+    }
+    setTimeout(()=> busy = false, 450);
+  });
+})();
+
+/* ===== 02 提交按钮三连变 ===== */
+(function(){
+  const btn = document.getElementById('submitBtn');
+  let busy = false;
+  btn.addEventListener('click', () => {
+    if (busy) return; busy = true;
+    btn.classList.add('circle');
+    setTimeout(() => {
+      btn.classList.remove('circle');
+      btn.classList.add('success');
+      setTimeout(() => {
+        btn.classList.remove('success');
+        const poly = btn.querySelector('.check polyline');
+        poly.style.animation = 'none'; void poly.offsetWidth;
+        busy = false;
+      }, 1000);
+    }, 1200);
+  });
+})();
+
+/* ===== 03 果冻开关 ===== */
+(function(){
+  const btn = document.getElementById('jelly');
+  btn.addEventListener('click', () => {
+    btn.classList.add('stretch');
+    setTimeout(() => {
+      btn.classList.toggle('on');
+      setTimeout(() => btn.classList.remove('stretch'), 180);
+    }, 90);
+  });
+})();
+
+/* ===== 04 长按确认 ===== */
+(function(){
+  const btn = document.getElementById('holdBtn');
+  const ring = document.getElementById('progRing');
+  const label = document.getElementById('holdLabel');
+  const C = 213.6, DUR = 1500;
+  let raf = null, start = 0, done = false;
+
+  function frame(now){
+    const p = Math.min((now - start)/DUR, 1);
+    ring.style.strokeDashoffset = C * (1 - p);
+    if (p >= 1) complete(); else raf = requestAnimationFrame(frame);
+  }
+  function down(e){
+    if (done) return;
+    e.preventDefault();
+    start = performance.now() - (C - (C - parseFloat(ring.style.strokeDashoffset||C)))*0; // fresh start
+    cancelAnimationFrame(raf);
+    start = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function up(){
+    if (done || !start) return;
+    cancelAnimationFrame(raf);
+    const cur = parseFloat(ring.style.strokeDashoffset);
+    const from = C - cur, t0 = performance.now();
+    (function back(now){
+      const p = Math.min((now - t0)/350, 1);
+      ring.style.strokeDashoffset = C * (1 - from*(1-p));
+      if (p < 1) requestAnimationFrame(back);
+    })(t0);
+  }
+  function complete(){
+    done = true;
+    btn.classList.add('shake');
+    setTimeout(() => {
+      btn.classList.remove('shake');
+      btn.classList.add('done');
+      btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:26px;height:26px"><polyline points="4,12.5 10,18.5 20,6.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      label.textContent = '已删除';
+      setTimeout(() => {
+        btn.classList.remove('done');
+        btn.innerHTML = '<svg class="ring" viewBox="0 0 74 74"><circle class="track" cx="37" cy="37" r="34"/><circle class="prog" id="progRing" cx="37" cy="37" r="34"/></svg><svg class="trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg>';
+        ring = document.getElementById('progRing');
+        ring.style.strokeDashoffset = C;
+        label.textContent = '按住删除';
+        done = false; start = 0;
+      }, 1400);
+    }, 350);
+  }
+  btn.addEventListener('mousedown', down);
+  btn.addEventListener('touchstart', down, {passive:false});
+  window.addEventListener('mouseup', up);
+  window.addEventListener('touchend', up);
+  btn.addEventListener('mouseleave', up);
+})();
+</script>
+</body>
+</html>
