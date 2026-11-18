@@ -279,7 +279,7 @@ AI 味体检：index.html
 
 性能三条硬约束（这类效果最容易把老笔记本卡死）：**像素只在图片加载时读一次**（绝不在动画循环里 `getImageData`）→ 字符图集/着色块提前烘好，循环里只 `drawImage` → 每秒 8~12 步而不是 60 帧，每步只改一小部分格子；画布离屏时暂停，DPR 上限 2。
 
-参考实现（字符画完整代码 + 性能注释）见 unslop 的 `references/effects.md`。
+参考实现（字符画完整代码 + 性能注释）在 [unslop](https://github.com/heydamir/unslop) 仓库的 `references/effects.md`——**不在本仓库**；本仓库对应的是 `effects-prompts.md`（提示词与实现要点，无完整代码）。
 
 ---
 

@@ -30,7 +30,7 @@ gh repo create {owner}/{name} --public --description "{简介}"
 
 - URI：`https://api.github.com/repos/{owner}/{repo}/contents/{path}`，方法 PUT
 - Body：`{message, content}`，content = 文件字节的 base64
-- 子目录文件直接把路径写进 URL（如 `popup-layer-ui/SKILL.md`），目录自动创建，不需要提前建目录
+- 子目录文件直接把路径写进 URL（如 `docs/SKILL.md`），目录自动创建，不需要提前建目录
 - PowerShell 编码：`$content = [Convert]::ToBase64String([System.IO.File]::ReadAllBytes($file))`
 - Headers：`Authorization="token (gh auth token)"`、`Accept='application/vnd.github+json'`
 - Body 用 UTF-8 字节传：`[System.Text.Encoding]::UTF8.GetBytes(($body | ConvertTo-Json))`
