@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>metal-card-generator · 四风格演示</title>
+<style>
+  :root {
+    --radius-outer: 20px;
+    --radius-inner: 4px;
+    --pad: 16px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 48px 24px 72px;
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    background: radial-gradient(120% 90% at 50% 0%, #f7f8fa 0%, #e9ebef 55%, #dfe2e7 100%);
+    color: #333;
+  }
+
+  .head { max-width: 1080px; margin: 0 auto 40px; }
+  .head h1 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+  }
+  .head p { margin: 0; font-size: 14px; color: #7a7f88; line-height: 1.7; }
+
+  .section { max-width: 1080px; margin: 0 auto 44px; }
+  .section__label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 18px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    color: #8a9099;
+    text-transform: uppercase;
+  }
+  .section__label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, #cfd4db, transparent);
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  /* ============ 金属卡片核心 ============ */
+  .metal-card {
+    --surface-1: #f5f5f5;
+    --surface-2: #dcdcdc;
+    --highlight: rgba(255, 255, 255, .28);
+    --shade: rgba(0, 0, 0, .18);
+    --ring-1: #e0e0e0;
+    --ring-2: #b0b0b0;
+
+    position: relative;
+    isolation: isolate;
+    width: 320px;
+    min-height: 120px;
+    max-height: 480px;
+    padding: var(--pad);
+    border-radius: var(--radius-outer);
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--surface-1) 0%, var(--surface-2) 100%);
+    box-shadow:
+      inset 0 2px 4px var(--highlight),
+      inset 0 -2px 4px var(--shade),
+      0 0 0 1px rgba(0, 0, 0, .04),
+      0 4px 8px rgba(0, 0, 0, .2);
+    transition: transform .3s ease, box-shadow .3s ease;
+    will-change: transform;
+    cursor: pointer;
+  }
+
+  /* 1px 渐变边框 */
+  .metal-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, var(--ring-1), var(--ring-2));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* 冷金属：拉丝 7%（轧制纹方向统一竖向） */
+  .metal-card[data-style="cold"] {
+    background-image:
+      repeating-linear-gradient(90deg,
+        rgba(255, 255, 255, .07) 0 1px,
+        transparent 1px 2px,
+        rgba(0, 0, 0, .025) 2px 3px),
+      linear-gradient(180deg, var(--surface-1) 0%, var(--surface-2) 100%);
+  }
+
+  /* 磨砂金属：噪点由 ::before 承载 */
+  .metal-card[data-style="frosted"] {
+    --surface-1: #d0d0d0;
+    --surface-2: #c0c0c0;
+    --highlight: rgba(255, 255, 255, .15);
+    --shade: rgba(0, 0, 0, .20);
+    --ring-1: #d8d8d8;
+    --ring-2: #a8a8a8;
+  }
+  .metal-card[data-style="frosted"]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 120px 120px;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* 亮面金属：顶 2px 实心高光 + 斜向镜面反光带 */
+  .metal-card[data-style="polished"] {
+    --surface-1: #f0f0f0;
+    --surface-2: #cfcfcf;
+    --ring-1: #fafafa;
+    --ring-2: #a0a0a0;
+    box-shadow:
+      inset 0 2px 0 rgba(255, 255, 255, .95),
+      inset 0 -3px 6px rgba(0, 0, 0, .22),
+      0 0 0 1px rgba(0, 0, 0, .05),
+      0 4px 8px rgba(0, 0, 0, .2);
+    background-image:
+      linear-gradient(158deg,
+        rgba(255, 255, 255, .90) 0%,
+        rgba(255, 255, 255, .35) 12%,
+        rgba(255, 255, 255, 0) 34%,
+        rgba(255, 255, 255, 0) 62%,
+        rgba(0, 0, 0, .04) 100%),
+      linear-gradient(180deg, var(--surface-1) 0%, var(--surface-2) 100%);
+  }
+
+  /* 暗色金属 */
+  .metal-card[data-style="dark"] {
+    --surface-1: #2e2e2e;
+    --surface-2: #1f1f1f;
+    --ring-1: #4a4a4a;
+    --ring-2: #2a2a2a;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .10),
+      inset 0 -2px 4px rgba(0, 0, 0, .50),
+      0 6px 16px rgba(0, 0, 0, .45);
+    color: #e8e8e8;
+  }
+
+  .metal-card__body { position: relative; z-index: 1; }
+
+  .metal-card__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .metal-card__title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #333;
+  }
+  .metal-card__tag {
+    flex: none;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .4px;
+    color: #6b7079;
+    background: rgba(0, 0, 0, .05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6);
+  }
+  .metal-card__text {
+    margin: 0 0 16px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #666;
+  }
+  .metal-card[data-style="dark"] .metal-card__title { color: #f0f0f0; }
+  .metal-card[data-style="dark"] .metal-card__text { color: #a8a8a8; }
+  .metal-card[data-style="dark"] .metal-card__tag {
+    color: #b9b9b9;
+    background: rgba(255, 255, 255, .07);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+  }
+
+  .metal-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #8b9099;
+  }
+  .metal-card[data-style="dark"] .metal-card__meta { color: #858585; }
+
+  .metal-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .metal-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #e0e0e0;
+    color: #333;
+    cursor: pointer;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .7),
+      0 1px 2px rgba(0, 0, 0, .12);
+    transition: background .2s ease, box-shadow .2s ease;
+  }
+  .metal-btn:hover { background: #d0d0d0; }
+  .metal-btn:active {
+    background: #c8c8c8;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .18);
+  }
+  .metal-card[data-style="dark"] .metal-btn {
+    background: #3a3a3a;
+    color: #e8e8e8;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 1px 2px rgba(0, 0, 0, .4);
+  }
+  .metal-card[data-style="dark"] .metal-btn:hover { background: #474747; }
+  .metal-card[data-style="dark"] .metal-btn:active {
+    background: #303030;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .6);
+  }
+
+  .metal-btn--ghost {
+    background: transparent;
+    color: #7a7f88;
+    box-shadow: none;
+    padding: 0 10px;
+  }
+  .metal-btn--ghost:hover { background: rgba(0, 0, 0, .05); color: #333; }
+  .metal-card[data-style="dark"] .metal-btn--ghost { color: #9a9a9a; }
+  .metal-card[data-style="dark"] .metal-btn--ghost:hover {
+    background: rgba(255, 255, 255, .06);
+    color: #f0f0f0;
+  }
+
+  .metal-icon {
+    width: 24px;
+    height: 24px;
+    flex: none;
+    color: #666;
+    transition: color .2s ease;
+  }
+  .metal-icon:hover { color: #333; }
+  .metal-card[data-style="dark"] .metal-icon { color: #8b8b8b; }
+  .metal-card[data-style="dark"] .metal-icon:hover { color: #f0f0f0; }
+
+  /* 三态 */
+  .metal-card:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 3px 6px rgba(255, 255, 255, .26),
+      inset 0 -2px 4px rgba(0, 0, 0, .18),
+      0 0 0 1px rgba(0, 0, 0, .04),
+      0 6px 12px rgba(0, 0, 0, .25);
+  }
+  .metal-card:active {
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 3px rgba(255, 255, 255, .20),
+      inset 0 -1px 2px rgba(0, 0, 0, .18),
+      0 0 0 1px rgba(0, 0, 0, .04),
+      0 2px 4px rgba(0, 0, 0, .15);
+    transition-duration: .1s;
+  }
+  .metal-card.is-disabled {
+    opacity: .6;
+    pointer-events: none;
+    box-shadow:
+      inset 0 1px 2px rgba(255, 255, 255, .10),
+      0 1px 2px rgba(0, 0, 0, .1);
+  }
+  .metal-card:focus-visible {
+    outline: 2px solid #4a90d9;
+    outline-offset: 2px;
+  }
+
+  /* 暗色演示区 */
+  .dark-zone {
+    padding: 36px 28px;
+    border-radius: 24px;
+    background: radial-gradient(120% 120% at 20% 0%, #1d1f23 0%, #121316 60%, #0b0c0e 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+  }
+  .dark-zone .section__label { color: #5f646b; }
+  .dark-zone .section__label::after {
+    background: linear-gradient(90deg, #33373d, transparent);
+  }
+
+  /* 尺寸演示 */
+  .size-note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: #9096a0;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 767px) {
+    .metal-card { width: 100%; }
+    body { padding: 28px 16px 48px; }
+  }
+  @media (min-width: 1200px) {
+    .metal-card { width: 360px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="head">
+    <h1>metal-card-generator</h1>
+    <p>四种金属风格 · 四层质感结构 · 同心圆角 20/16/4 · 三态交互<br>
+       鼠标移上去试试悬停与按下的手感，最后一张卡是禁用态。</p>
+  </div>
+
+  <section class="section">
+    <h2 class="section__label">Cold · 冷金属</h2>
+    <div class="row">
+      <article class="metal-card" data-style="cold" tabindex="0">
+        <div class="metal-card__body">
+          <div class="metal-card__head">
+            <h3 class="metal-card__title">机架节点 03</h3>
+            <span class="metal-card__tag">RUNNING</span>
+          </div>
+          <p class="metal-card__text">CPU 32% · 内存 6.1G / 16G · 运行 41 天。轧制面处理，无纹理叠加。</p>
+          <div class="metal-card__actions">
+            <button class="metal-btn">查看监控</button>
+            <button class="metal-btn metal-btn--ghost">日志</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="metal-card" data-style="cold" tabindex="0">
+        <div class="metal-card__body">
+          <div class="metal-card__head">
+            <h3 class="metal-card__title">资源配额</h3>
+            <svg class="metal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg>
+          </div>
+          <p class="metal-card__text">本月已用 68%，剩余额度 32%，将于 12 天后重置。</p>
+          <div class="metal-card__actions">
+            <button class="metal-btn">调整配额</button>
+          </div>
+        </div>
+      </article>
+    </div>
+    <p class="size-note">默认 320px · ≥768px 撑满容器 · ≥1200px 360px</p>
+  </section>
+
+  <section class="section">
+    <h2 class="section__label">Frosted · 磨砂金属</h2>
+    <div class="row">
+      <article class="metal-card" data-style="frosted" tabindex="0">
+        <div class="metal-card__body">
+          <div class="metal-card__head">
+            <h3 class="metal-card__title">Studio Display</h3>
+            <span class="metal-card__tag">新品</span>
+          </div>
+          <p class="metal-card__text">阳极氧化磨砂铝背板，喷砂颗粒在 120px 尺度叠加，触感偏哑光。</p>
+          <div class="metal-card__actions">
+            <button class="metal-btn">了解详情</button>
+            <button class="metal-btn metal-btn--ghost">对比</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="metal-card" data-style="frosted" tabindex="0">
+        <div class="metal-card__body">
+          <div class="metal-card__head">
+            <h3 class="metal-card__title">渲染队列</h3>
+            <span class="metal-card__tag">3 任务</span>
+          </div>
+          <p class="metal-card__text">剩余 12 分 40 秒，队列暂停后可继续，已完成帧 1,842 / 2,400。</p>
+          <div class="metal-card__actions">
+            <button class="metal-btn">暂停</button>
+            <button class="metal-btn metal-btn--ghost">取消</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section__label">Polished · 亮面金属</h2>
+    <div class="row">
+      <article class="metal-card" data-style="polished" tabindex="0">
+        <div class="metal-card__body">
+          <div class="metal-card__head">
+            <h3 class="metal-card__title">Mirror Finish</h3>
+            <span class="metal-card__tag">HERO</span>
+          </div>
+          <p class="metal-card__text">顶部 2px 实心高光模拟镜面反光，底部 4px 深阴影拉出金属厚度。</p>
+          <div class="metal-card__actions">
+            <button class="metal-btn">立即体验</button>
+            <button class="metal-btn metal-btn--ghost">参数</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="metal-card is-disabled" data-style="polished" tabindex="-1">
+        <div class="metal-card__body">
+          <div class="metal-card__head">
+            <h3 class="metal-card__title">禁用状态</h3>
+            <span class="metal-card__tag">LOCKED</span>
+          </div>
+          <p class="metal-card__text">透明度 0.6，阴影收敛至 1px，无悬停与点击反馈。</p>
+          <div class="metal-card__actions">
+            <button class="metal-btn">不可点击</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="dark-zone">
+      <h2 class="section__label">Dark · 暗色金属（深底专用）</h2>
+      <div class="row">
+        <article class="metal-card" data-style="dark" tabindex="0">
+          <div class="metal-card__body">
+            <div class="metal-card__head">
+              <h3 class="metal-card__title">夜航模式</h3>
+              <span class="metal-card__tag">ACTIVE</span>
+            </div>
+            <p class="metal-card__text">深色页面上浅色金属会"浮起来"，改用 #2e2e2e → #1f1f1f 的暗色档。</p>
+            <div class="metal-card__actions">
+              <button class="metal-btn">开启</button>
+              <button class="metal-btn metal-btn--ghost">设置</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="metal-card" data-style="dark" tabindex="0">
+          <div class="metal-card__body">
+            <div class="metal-card__head">
+              <h3 class="metal-card__title">对战数据</h3>
+              <span class="metal-card__tag">LIVE</span>
+            </div>
+            <p class="metal-card__text">胜率 62.4% · 场次 189 · 平均时长 18 分 22 秒。暗色档高光仅 10%。</p>
+            <div class="metal-card__actions">
+              <button class="metal-btn">查看战绩</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
