@@ -1,4 +1,4 @@
-# solo-to-commercial 单人商业级应用开发流程
+# solo-commercial-app 单人商业级应用开发流程
 
 > 🧩 本 skill 是 [MoYan1638/moyan-skills](https://github.com/MoYan1638/moyan-skills) 系列的一员，更多 skill 看那边。
 
