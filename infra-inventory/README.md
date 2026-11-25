@@ -1,4 +1,4 @@
-# infra-ledger 基建台账
+# infra-inventory 基建台账
 
 > 🧩 本 skill 是 [MoYan1638/moyan-skills](https://github.com/MoYan1638/moyan-skills) 系列的一员，更多 skill 看那边。
 
@@ -41,15 +41,15 @@
 ### 方式一：通用 Skills CLI（推荐）
 
 ```bash
-npx skills add MoYan1638/moyan-skills/infra-ledger
+npx skills add MoYan1638/moyan-skills/infra-inventory
 ```
 
 ### 方式二：WorkBuddy
 
-将 `SKILL.md` 所在的 `infra-ledger` 文件夹放入技能目录：
+将 `SKILL.md` 所在的 `infra-inventory` 文件夹放入技能目录：
 
 ```
-~/.workbuddy/skills/infra-ledger/SKILL.md
+~/.workbuddy/skills/infra-inventory/SKILL.md
 ```
 
 ### 方式三：Claude Code / Codex / Cursor 等
@@ -58,7 +58,7 @@ npx skills add MoYan1638/moyan-skills/infra-ledger
 
 - Claude Code → `CLAUDE.md`
 - Codex / 通用 → `AGENTS.md`
-- Cursor → `.cursor/rules/infra-ledger.mdc`
+- Cursor → `.cursor/rules/infra-inventory.mdc`
 - GitHub Copilot → `.github/copilot-instructions.md`
 
 ### 方式四：人类阅读

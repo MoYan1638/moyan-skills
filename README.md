@@ -11,10 +11,11 @@
 | enterprise-ai-agent | 落地方法 | 企业专属 AI 智能体八层封装：系统提示词身份约束→RAG 知识库防瞎编→MCP 工具连接→角色权限管控→提示词注入与安全护栏→缓存与模型路由控成本→可观测性与评测回归，附从 demo 到上线八步清单、按企业规模选路径与 6 问自检 | `npx skills add MoYan1638/moyan-skills/enterprise-ai-agent` |
 | liquid-glass-ui | 质量规范 | 液态玻璃界面生产工艺：五步玻璃工艺 + 背景三原则 + 实测避坑，附完整模板 | `npx skills add MoYan1638/moyan-skills/liquid-glass-ui` |
 | metal-card-generator | 质量规范 | 工业级金属质感卡片生产工艺：冷金属/磨砂/亮面/暗色四风格配色表 + 方向性明暗 + 四层质感结构 + 同心圆角算法 + 三态交互，附完整模板与演示页 | `npx skills add MoYan1638/moyan-skills/metal-card-generator` |
-| review-precheck | 质量规范 | 小程序/App 提审前五项合规预检，产出"可提/改完再提/提了也拒"判定 | `npx skills add MoYan1638/moyan-skills/review-precheck` |
+| app-review-checklist | 质量规范 | 小程序/App 提审前五项合规预检，产出"可提/改完再提/提了也拒"判定 | `npx skills add MoYan1638/moyan-skills/app-review-checklist` |
+| demo-to-prod | 质量规范 | 生产硬化四步流（全类别 App 通用，附 Lite/Full 选档）：把 AI 生成的"可运行 Demo"转化为可上线生产级 App——验收标准四维度（核心业务/性能/安全/体验，逐条编号）→自动化代码约束（原子性/幂等/状态机收敛/参数化查询/权限校验/隐私加密，ArchUnit 等工具拦截）→AI 病灶体检（吞异常/假幂等/Mock 永真等 8 类命中即打回）+真实环境并发/失败注入/性能/安全测试+追溯矩阵防假覆盖→要害逻辑人工审核，任一环节不过即终止，产出上线报告与三态判定 | `npx skills add MoYan1638/moyan-skills/demo-to-prod` |
 | decision-loop | 思维决策 | 决策闭环三阶段：事前参谋（摸底牌/收敛分歧/行动方案）→ 拍板留档（决策日志）→ 事后复盘（四问一卡），自动联动 | `npx skills add MoYan1638/moyan-skills/decision-loop` |
 | github-publisher | 工具提效 | GitHub 发布生产线：建仓→上传→配 topics→验证，内置踩坑硬规则 | `npx skills add MoYan1638/moyan-skills/github-publisher` |
-| infra-ledger | 工具提效 | 基建台账：域名/服务器/证书/映射关系登记与查询，到期自动预警 | `npx skills add MoYan1638/moyan-skills/infra-ledger` |
+| infra-inventory | 工具提效 | 基建台账：域名/服务器/证书/映射关系登记与查询，到期自动预警 | `npx skills add MoYan1638/moyan-skills/infra-inventory` |
 
 ## 版本说明
 

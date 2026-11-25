@@ -1,4 +1,4 @@
-# review-precheck 提审预检
+# app-review-checklist 提审预检
 
 > 🧩 本 skill 是 [MoYan1638/moyan-skills](https://github.com/MoYan1638/moyan-skills) 系列的一员，更多 skill 看那边。
 
@@ -33,15 +33,15 @@
 ### 方式一：通用 Skills CLI（推荐）
 
 ```bash
-npx skills add MoYan1638/moyan-skills/review-precheck
+npx skills add MoYan1638/moyan-skills/app-review-checklist
 ```
 
 ### 方式二：WorkBuddy
 
-将 `SKILL.md` 所在的 `review-precheck` 文件夹放入技能目录：
+将 `SKILL.md` 所在的 `app-review-checklist` 文件夹放入技能目录：
 
 ```
-~/.workbuddy/skills/review-precheck/SKILL.md
+~/.workbuddy/skills/app-review-checklist/SKILL.md
 ```
 
 ### 方式三：Claude Code / Codex / Cursor 等
@@ -50,7 +50,7 @@ npx skills add MoYan1638/moyan-skills/review-precheck
 
 - Claude Code → `CLAUDE.md`
 - Codex / 通用 → `AGENTS.md`
-- Cursor → `.cursor/rules/review-precheck.mdc`
+- Cursor → `.cursor/rules/app-review-checklist.mdc`
 - GitHub Copilot → `.github/copilot-instructions.md`
 
 ### 方式四：人类阅读
