@@ -16,6 +16,7 @@
 | decision-loop | 思维决策 | 决策闭环三阶段：事前参谋（摸底牌/收敛分歧/行动方案）→ 拍板留档（决策日志）→ 事后复盘（四问一卡），自动联动 | `npx skills add MoYan1638/moyan-skills/decision-loop` |
 | github-publisher | 工具提效 | GitHub 发布生产线：建仓→上传→配 topics→验证，内置踩坑硬规则 | `npx skills add MoYan1638/moyan-skills/github-publisher` |
 | infra-inventory | 工具提效 | 基建台账：域名/服务器/证书/映射关系登记与查询，到期自动预警 | `npx skills add MoYan1638/moyan-skills/infra-inventory` |
+| generate-app-icons | 工具提效 | App 图标生成生产线五步法：意象提炼（物体+动作+情绪三要素）→ 三色纪律配色（全图恰好三色，禁双色渐变/光斑）→ 四条视觉路线选型（扁平描边/软3D/渐变剪影/极简立体符号，一次只选一条）→ 构图硬约束生成（3-5 形状预算/主体占 62-72% 居中/提示词用途隐藏技巧/三方向真差异化抽卡）→ 细节调整与小尺寸验收（水印镜像补丁无痕清除/1024·180·60·32 四档验收/剪影测试），附平台硬约束（iOS 1024 无透明不自画圆角、Android 自适应前景 66% 安全区）与完整提示词骨架；方法论融合 design-playful-app-icons、app-icon-master、design-app-icon、ios-app-icon-generator 四个开源技能并消化重写 | `npx skills add MoYan1638/moyan-skills/generate-app-icons` |
 
 ## 版本说明
 
