@@ -29,6 +29,6 @@
 
 附 10 类常见翻车对照表（做一年不上线、收入模式不成立、数据库先崩、联调天天对不上、被拖库、回滚不回去、半夜挂没人知道等）与回退规则（含"商业假设被数据证伪→回第一步止损"）。
 
-与其他 skill 分工：通用基础工序用 `idea-to-code`（本 skill 可叠加其上）、代码硬化用 `demo-to-prod`（它管代码够不够硬，本 skill 管项目节奏与风险）、发布用 `github-publisher`、提审用 `app-review-checklist`。
+与其他 skill 分工：通用基础工序用 `idea-to-code`（本 skill 可叠加其上）、代码硬化用 `demo-to-prod`（它管代码够不够硬，本 skill 管项目节奏与风险）、发布用 `github-publisher`、提审预检已并入 demo-to-prod 第五步。
 
 完整检查清单、产出物要求与灰度判定规则见 [SKILL.md](SKILL.md)。

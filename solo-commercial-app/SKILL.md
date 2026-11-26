@@ -194,5 +194,5 @@ description: 单人结合 AI 搭建商业级应用的标准化十步流程：商
 - 第一次把想法变成软件的通用工序 → 用 `idea-to-code`（想法→上线的基础路径，本 skill 可叠加在其上做商业专项：分期、审计、灰度、监控、迭代）
 - 代码层面的生产硬化（验收标准/代码约束/深度测试/要害审核）→ 用 `demo-to-prod`（它管"代码够不够硬"，本 skill 管"项目节奏与风险"）
 - 发布到 GitHub → 用 `github-publisher`
-- 小程序/App 提审 → 用 `app-review-checklist`
+- 小程序/App 提审 → 用 `demo-to-prod` 第五步提审预检（平台合规五项检查）
 - 企业级 AI 智能体项目 → 追加 `enterprise-ai-agent` 做智能体专项封装
